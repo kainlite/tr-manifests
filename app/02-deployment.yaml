@@ -8,6 +8,8 @@ metadata:
     gitops.operator.image_name: kainlite/tr
     gitops.operator.manifest_repository: git@github.com:kainlite/tr-manifests.git
     gitops.operator.namespace: tr
+    gitops.operator.ssh_key_name: ssh-key
+    gitops.operator.ssh_key_namespace: gitops-operator
   labels:
     app: tr
     name: tr
