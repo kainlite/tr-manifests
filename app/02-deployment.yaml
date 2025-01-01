@@ -1,8 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tr-deployment
-  namespace: tr
   annotations:
     gitops.operator.app_repository: git@github.com:kainlite/tr.git
     gitops.operator.deployment_path: app/02-deployment.yaml
@@ -11,8 +9,10 @@ metadata:
     gitops.operator.manifest_repository: git@github.com:kainlite/tr-manifests.git
     gitops.operator.namespace: tr
   labels:
-    name: tr
     app: tr
+    name: tr
+  name: tr-deployment
+  namespace: tr
 spec:
   replicas: 3
   selector:
@@ -21,17 +21,18 @@ spec:
   template:
     metadata:
       labels:
-        name: tr
         app: tr
+        name: tr
     spec:
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-      imagePullSecrets:
-      - name: regcred
       containers:
-      - name: tr
-        image: kainlite/tr:latest
+      - env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.podIP
+        - name: OLLAMA_ENDPOINT
+          value: http://ollama.ollama.svc.cluster.local:11434/api
         envFrom:
         - secretRef:
             name: tr-cloak
@@ -45,21 +46,23 @@ spec:
             name: tr-mailer-config
         - secretRef:
             name: tr-secret-key-config
-        env:
-        - name: POD_IP
-          valueFrom:
-            fieldRef:
-              apiVersion: v1
-              fieldPath: status.podIP
-        - name: OLLAMA_ENDPOINT
-          value: "http://ollama.ollama.svc.cluster.local:11434/api"
+        image: kainlite/tr:77030b351a470e6d768b99e8b47ccced791233cf
+        imagePullPolicy: Always
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/sh", "-c", "/app/bin/tr eval \"Tr.Release.migrate()\""]
+              command:
+              - /bin/sh
+              - -c
+              - /app/bin/tr eval "Tr.Release.migrate()"
+        name: tr
         ports:
         - containerPort: 4000
         - containerPort: 4369
         securityContext:
           allowPrivilegeEscalation: false
-        imagePullPolicy: Always
+      imagePullSecrets:
+      - name: regcred
+      securityContext:
+        runAsGroup: 1000
+        runAsUser: 1000
