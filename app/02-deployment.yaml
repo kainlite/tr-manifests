@@ -8,6 +8,7 @@ metadata:
     gitops.operator.image_name: kainlite/tr
     gitops.operator.manifest_repository: git@github.com:kainlite/tr-manifests.git
     gitops.operator.namespace: tr
+    gitops.operator.notifications: 'true'
     gitops.operator.ssh_key_name: ssh-key
     gitops.operator.ssh_key_namespace: gitops-operator
   labels:
@@ -48,7 +49,7 @@ spec:
             name: tr-mailer-config
         - secretRef:
             name: tr-secret-key-config
-        image: kainlite/tr:77030b351a470e6d768b99e8b47ccced791233cf
+        image: kainlite/tr:1b257e5161c75eae058a2e2648bf57406a4f286a
         imagePullPolicy: Always
         lifecycle:
           postStart:

@@ -9,7 +9,7 @@ spec:
       description: The git revision (SHA)
       default: master
     - name: gitrepositoryurl
-      description: The git repository url ("https://github.com/foo/bar.git")
+      description: The git repository (git format)
   resourcetemplates:
     - apiVersion: tekton.dev/v1beta1
       metadata:
