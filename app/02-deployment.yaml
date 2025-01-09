@@ -8,7 +8,8 @@ metadata:
     gitops.operator.image_name: kainlite/tr
     gitops.operator.manifest_repository: git@github.com:kainlite/tr-manifests.git
     gitops.operator.namespace: tr
-    gitops.operator.notifications: 'true'
+    gitops.operator.notifications_secret_name: 'webhook-secret'
+    gitops.operator.notifications_secret_namespace: 'gitops-operator'
     gitops.operator.ssh_key_name: ssh-key
     gitops.operator.ssh_key_namespace: gitops-operator
   labels:
