@@ -8,8 +8,8 @@ metadata:
     gitops.operator.image_name: kainlite/tr
     gitops.operator.manifest_repository: git@github.com:kainlite/tr-manifests.git
     gitops.operator.namespace: tr
-    gitops.operator.notifications_secret_name: 'webhook-secret'
-    gitops.operator.notifications_secret_namespace: 'gitops-operator'
+    gitops.operator.notifications_secret_name: webhook-secret
+    gitops.operator.notifications_secret_namespace: gitops-operator
     gitops.operator.ssh_key_name: ssh-key
     gitops.operator.ssh_key_namespace: gitops-operator
   labels:
@@ -50,7 +50,7 @@ spec:
             name: tr-mailer-config
         - secretRef:
             name: tr-secret-key-config
-        image: kainlite/tr:659f6bead28e6068087a2dc7ec0c53e9981b4b2a
+        image: kainlite/tr:f391a55491744201d6d8549bdbc3d09a30d26163
         imagePullPolicy: Always
         lifecycle:
           postStart:
