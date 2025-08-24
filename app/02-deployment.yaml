@@ -50,7 +50,7 @@ spec:
             name: tr-mailer-config
         - secretRef:
             name: tr-secret-key-config
-        image: kainlite/tr:9fded5719996ae84fbcb43d90a143b7dac207aa4
+        image: kainlite/tr:077ab62bd4ff00eaafbacd2a06863a3b8374da8c
         imagePullPolicy: Always
         lifecycle:
           postStart:
