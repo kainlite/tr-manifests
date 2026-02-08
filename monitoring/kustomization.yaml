@@ -7,3 +7,5 @@ resources:
   - 02-config.yaml
   - 03-prometheus.yaml
   - 04-service.yaml
+  - 05-node-exporter.yaml
+  - 06-kube-state-metrics.yaml
