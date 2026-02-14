@@ -10,6 +10,8 @@ data:
     global:
       scrape_interval: 15s
       evaluation_interval: 15s
+    rule_files:
+      - /etc/prometheus/rules/*.yml
     scrape_configs:
     - job_name: 'monitoring-job'
       static_configs:

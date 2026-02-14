@@ -23,6 +23,7 @@ spec:
             - "--storage.tsdb.retention.time=24h"
             - "--config.file=/etc/prometheus/prometheus.yml"
             - "--storage.tsdb.path=/prometheus/"
+            - "--web.enable-lifecycle"
           ports:
             - containerPort: 9090
           resources:
@@ -37,6 +38,8 @@ spec:
               mountPath: /etc/prometheus/
             - name: prometheus-storage-volume
               mountPath: /prometheus/
+            - name: prometheus-rules-volume
+              mountPath: /etc/prometheus/rules/
       volumes:
         - name: prometheus-config-volume
           configMap:
@@ -44,3 +47,7 @@ spec:
             name: prometheus-k8s-conf
         - name: prometheus-storage-volume
           emptyDir: {}
+        - name: prometheus-rules-volume
+          configMap:
+            defaultMode: 420
+            name: prometheus-alerting-rules
