@@ -15,10 +15,10 @@ metadata:
 spec:
   tls:
   - hosts:
-      - livebook.techsquad.rocks
+      - livebook.segfault.pw
     secretName: livebook-prod-tls
   rules:
-  - host: livebook.techsquad.rocks
+  - host: livebook.segfault.pw
     http:
       paths:
       - path: "/"

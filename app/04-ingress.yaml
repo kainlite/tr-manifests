@@ -14,51 +14,6 @@ metadata:
     use-proxy-protocol: "true"
 spec:
   tls:
-  - hosts:
-      - techsquad.rocks
-      - www.techsquad.rocks
-    secretName: tr-prod-tls
-  rules:
-  - host: techsquad.rocks
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: tr
-            port:
-              number: 4000
-  - host: www.techsquad.rocks
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: tr
-            port:
-              number: 4000
-  - host: redbeard.team
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: tr
-            port:
-              number: 4000
-  - host: www.redbeard.team
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: tr
-            port:
-              number: 4000
   - host: segfault.pw
     http:
       paths:
