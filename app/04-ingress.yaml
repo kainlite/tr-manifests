@@ -14,6 +14,10 @@ metadata:
     use-proxy-protocol: "true"
 spec:
   tls:
+  - hosts:
+      - segfault.pw
+    secretName: tr-prod-tls
+  rules:
   - host: segfault.pw
     http:
       paths:
