@@ -13,20 +13,9 @@ metadata:
 spec:
   tls:
   - hosts:
-      - trgh.techsquad.rocks
       - trgh.segfault.pw
     secretName: tr-prod-tls
   rules:
-    - host: trgh.techsquad.rocks
-      http:
-        paths:
-          - path: /hooks
-            pathType: Exact
-            backend:
-              service:
-                name: el-clone-build-push
-                port:
-                  number: 8080
     - host: trgh.segfault.pw
       http:
         paths:
