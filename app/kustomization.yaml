@@ -6,4 +6,5 @@ resources:
   - 03-service.yaml
   - 04-ingress.yaml
   - 05-role.yaml
-  - 07-cleaner.yaml
+# Not needed anymore
+#   - 07-cleaner.yaml
