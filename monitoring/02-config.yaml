@@ -117,8 +117,8 @@ data:
         send_batch_size: 10000
         timeout: 5s
     exporters:
-      otlp/jaeger:
-        endpoint: tempo.svc.cluster.local:4317
+      otlp/tempo:
+        endpoint: tempo.monitoring.svc.cluster.local:4317
         tls:
           insecure: true
       prometheus:
@@ -130,7 +130,7 @@ data:
         traces:
           receivers: [otlp]
           processors: [batch]
-          exporters: [logging]
+          exporters: [otlp/tempo, logging]
         metrics:
           receivers: [otlp]
           processors: [batch]
