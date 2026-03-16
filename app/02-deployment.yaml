@@ -10,6 +10,8 @@ metadata:
     gitops.operator.namespace: tr
     gitops.operator.notifications_secret_name: webhook-secret
     gitops.operator.notifications_secret_namespace: gitops-operator
+    gitops.operator.registry_secret_url: 'https://ghcr.io'
+    gitops.operator.registry_secret_name: ghcr-creds
     gitops.operator.ssh_key_name: ssh-key
     gitops.operator.ssh_key_namespace: gitops-operator
   labels:
