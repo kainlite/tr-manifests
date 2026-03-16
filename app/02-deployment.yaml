@@ -5,7 +5,7 @@ metadata:
     gitops.operator.app_repository: git@github.com:kainlite/tr.git
     gitops.operator.deployment_path: app/02-deployment.yaml
     gitops.operator.enabled: 'true'
-    gitops.operator.image_name: kainlite/tr
+    gitops.operator.image_name: ghcr.io/kainlite/tr
     gitops.operator.manifest_repository: git@github.com:kainlite/tr-manifests.git
     gitops.operator.namespace: tr
     gitops.operator.notifications_secret_name: webhook-secret
@@ -52,7 +52,7 @@ spec:
             name: tr-secret-key-config
         - secretRef:
             name: tr-linkedin-config
-        image: kainlite/tr:83022253e23531d0cfd57462dd17b1de91748138
+        image: ghcr.io/kainlite/tr:latest
         imagePullPolicy: Always
         lifecycle:
           postStart:
@@ -68,7 +68,7 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
       imagePullSecrets:
-      - name: regcred
+      - name: ghcr-creds
       securityContext:
         runAsGroup: 1000
         runAsUser: 1000
