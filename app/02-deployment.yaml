@@ -10,8 +10,8 @@ metadata:
     gitops.operator.namespace: tr
     gitops.operator.notifications_secret_name: webhook-secret
     gitops.operator.notifications_secret_namespace: gitops-operator
-    gitops.operator.registry_secret_url: 'https://ghcr.io'
     gitops.operator.registry_secret_name: ghcr-creds
+    gitops.operator.registry_secret_url: https://ghcr.io
     gitops.operator.ssh_key_name: ssh-key
     gitops.operator.ssh_key_namespace: gitops-operator
   labels:
@@ -54,7 +54,7 @@ spec:
             name: tr-secret-key-config
         - secretRef:
             name: tr-linkedin-config
-        image: ghcr.io/kainlite/tr:latest
+        image: ghcr.io/kainlite/tr:117582b3c93a15bde7d5f2f34f07d1a76e19b6be
         imagePullPolicy: Always
         lifecycle:
           postStart:
