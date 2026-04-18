@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: prometheus-k8s
   namespace: monitoring
@@ -7,6 +7,7 @@ metadata:
     app: prometheus-k8s
 spec:
   replicas: 1
+  serviceName: prometheus-service
   selector:
     matchLabels:
       app: prometheus-k8s
@@ -15,24 +16,33 @@ spec:
       labels:
         app: prometheus-k8s
     spec:
+      terminationGracePeriodSeconds: 300
+      securityContext:
+        fsGroup: 65534
+        runAsUser: 65534
+        runAsNonRoot: true
       containers:
         - name: prometheus
           image: quay.io/prometheus/prometheus:v3.9.1
           imagePullPolicy: IfNotPresent
           args:
-            - "--storage.tsdb.retention.time=24h"
             - "--config.file=/etc/prometheus/prometheus.yml"
             - "--storage.tsdb.path=/prometheus/"
+            - "--storage.tsdb.retention.time=7d"
+            - "--storage.tsdb.retention.size=15GB"
+            - "--storage.tsdb.wal-compression"
+            - "--query.max-samples=50000000"
             - "--web.enable-lifecycle"
           ports:
-            - containerPort: 9090
+            - name: web
+              containerPort: 9090
           resources:
             requests:
               cpu: 100m
-              memory: 256M
+              memory: 512Mi
             limits:
-              cpu: 500m
-              memory: 1Gi
+              cpu: "1"
+              memory: 2Gi
           volumeMounts:
             - name: prometheus-config-volume
               mountPath: /etc/prometheus/
@@ -40,14 +50,39 @@ spec:
               mountPath: /prometheus/
             - name: prometheus-rules-volume
               mountPath: /etc/prometheus/rules/
+          startupProbe:
+            httpGet:
+              path: /-/ready
+              port: web
+            periodSeconds: 10
+            failureThreshold: 60
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: web
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: web
+            periodSeconds: 30
+            failureThreshold: 6
       volumes:
         - name: prometheus-config-volume
           configMap:
             defaultMode: 420
             name: prometheus-k8s-conf
-        - name: prometheus-storage-volume
-          emptyDir: {}
         - name: prometheus-rules-volume
           configMap:
             defaultMode: 420
             name: prometheus-alerting-rules
+  volumeClaimTemplates:
+    - metadata:
+        name: prometheus-storage-volume
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: longhorn
+        resources:
+          requests:
+            storage: 20Gi
