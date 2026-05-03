@@ -4,14 +4,13 @@ metadata:
   annotations:
     gitops.operator.app_repository: git@github.com:kainlite/tr.git
     gitops.operator.deployment_path: app/02-deployment.yaml
-    gitops.operator.enabled: "true"
+    gitops.operator.enabled: 'true'
     gitops.operator.image_name: ghcr.io/kainlite/tr
     gitops.operator.manifest_repository: git@github.com:kainlite/tr-manifests.git
     gitops.operator.namespace: tr
     gitops.operator.notifications_secret_name: webhook-secret
     gitops.operator.notifications_secret_namespace: gitops-operator
     gitops.operator.registry_secret_name: ghcr-creds
-    # gitops.operator.registry_secret_url: https://ghcr.io
     gitops.operator.ssh_key_name: ssh-key
     gitops.operator.ssh_key_namespace: gitops-operator
   labels:
@@ -31,46 +30,46 @@ spec:
         name: tr
     spec:
       containers:
-        - env:
-            - name: POD_IP
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: status.podIP
-            - name: OLLAMA_ENDPOINT
-              value: http://ollama.ollama.svc.cluster.local:11434/api
-          envFrom:
-            - secretRef:
-                name: tr-cloak
-            - secretRef:
-                name: tr-google-oauth
-            - secretRef:
-                name: tr-github-oauth
-            - secretRef:
-                name: tr-postgres-config
-            - secretRef:
-                name: tr-mailer-config
-            - secretRef:
-                name: tr-secret-key-config
-            - secretRef:
-                name: tr-linkedin-config
-          image: ghcr.io/kainlite/tr:117582b3c93a15bde7d5f2f34f07d1a76e19b6be
-          imagePullPolicy: Always
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - /bin/sh
-                  - -c
-                  - /app/bin/tr eval "Tr.Release.migrate()"
-          name: tr
-          ports:
-            - containerPort: 4000
-            - containerPort: 4369
-          securityContext:
-            allowPrivilegeEscalation: false
+      - env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.podIP
+        - name: OLLAMA_ENDPOINT
+          value: http://ollama.ollama.svc.cluster.local:11434/api
+        envFrom:
+        - secretRef:
+            name: tr-cloak
+        - secretRef:
+            name: tr-google-oauth
+        - secretRef:
+            name: tr-github-oauth
+        - secretRef:
+            name: tr-postgres-config
+        - secretRef:
+            name: tr-mailer-config
+        - secretRef:
+            name: tr-secret-key-config
+        - secretRef:
+            name: tr-linkedin-config
+        image: ghcr.io/kainlite/tr:92e3842d6d3885f6b137ffe8bafd59058bd0f895
+        imagePullPolicy: Always
+        lifecycle:
+          postStart:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - /app/bin/tr eval "Tr.Release.migrate()"
+        name: tr
+        ports:
+        - containerPort: 4000
+        - containerPort: 4369
+        securityContext:
+          allowPrivilegeEscalation: false
       imagePullSecrets:
-        - name: ghcr-creds
+      - name: ghcr-creds
       securityContext:
         runAsGroup: 1000
         runAsUser: 1000
