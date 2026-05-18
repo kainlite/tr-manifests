@@ -53,7 +53,7 @@ spec:
             name: tr-secret-key-config
         - secretRef:
             name: tr-linkedin-config
-        image: ghcr.io/kainlite/tr:ef6c81a33809e9d88a1591c5eab2e05df6389be2
+        image: ghcr.io/kainlite/tr:364bae56ad70700f8edf984486ffc0c780c6f901
         imagePullPolicy: Always
         lifecycle:
           postStart:
