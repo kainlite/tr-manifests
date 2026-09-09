@@ -38,6 +38,8 @@ spec:
               fieldPath: status.podIP
         - name: OLLAMA_ENDPOINT
           value: http://ollama.ollama.svc.cluster.local:11434/api
+        - name: CONTACT_EMAIL
+          value: blog@segfault.pw
         envFrom:
         - secretRef:
             name: tr-cloak
